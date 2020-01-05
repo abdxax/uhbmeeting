@@ -1,0 +1,33 @@
+body{
+	
+	margin: 0;
+}
+.tit{
+	padding: 9px
+}
+
+
+@media only screen and (min-width: 768px) {
+  
+.section-forms{
+position: relative;
+}
+
+.forms{
+position: absolute;
+width: 100%;
+right: 35%;
+padding: 15px;
+}
+
+  }
+
+@media only screen and (max-width: 768px) {
+	.rounded{
+		width: 70%;
+	}
+ 
+
+
+
+}
