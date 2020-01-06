@@ -1,16 +1,7 @@
 <?php
 session_start();
 //require_once __DIR__.'template/header.php';
-require 'template/header.php';
-require "control/user.php";
-
-if (isset($_POST['sub'])) {
-	# code...
-	 $user=new User();
-	$email=strip_tags($_POST['email']);
-	$pass=strip_tags($_POST['pass']);
-	$msg=$user->login($email,$pass);
-}
+require '../template/header.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,41 +24,39 @@ if (isset($_POST['sub'])) {
   
 </head>
 <body>
+	<header dir="rtl">
+		<div class="">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand " href="#"><img src="../image/header2.png" width="30" height="30"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="info.php">بياناتي</a>
+         
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">تسجيل خروج </a>
+        </div>
+      </li>
+    
+    </ul>
+    
+  </div>
+</nav>
+		</div>
+	</header>
 <section dir="rtl" class="section-forms">
 	<div class="container">
 		<div class="row">
-			<div class="col-12">
-				<img src="image/logo.jpg" class="rounded mx-auto d-block">
-			</div>
-			<div class="col-12 text-center">
-				<h4>ملتقى العمداء في الجامعات السعودية الرابع والعشرين</h4>
-			</div>
-
-			<div class="col-12 col-sm-12 ">
-				<form class="forms" method="POST">
-					<div class="form-group ">
-						<div class="col-sm-6 col-md-4">
-							<input type="email" name="email" class="form-control" placeholder="البريد الالكتروني ">
-						</div>
-					</div>
-
-					<div class="form-group ">
-						<div class="col-sm-6 col-md-4">
-							<input type="password" name="pass" class="form-control" placeholder="كلمة المرور">
-						</div>
-					</div>
-
-					<div class="form-group row">
-						<div class="col-sm-6 col-md-4">
-							<input type="submit" name="sub" class="btn btn-info btn-block" value="دخول ">
-								<a href="register.php" class="btn btn-info btn-block">تسجيل جديد </a>
-						</div>
-						
-					</div>
-
-					
-				</form>
-			</div>
+			
 		</div>
 	</div>
 </section>
@@ -81,5 +70,5 @@ if (isset($_POST['sub'])) {
 
 <?php
 //require_once __DIR__.'template/footer.php';
-require 'template/footer.php';
+require '../template/footer.php';
 ?>
