@@ -24,4 +24,74 @@ class Dean extends DBConnect
         	echo "string";
         }
 	}
+
+	public function addTitle($email,$tit,$ds){
+		$sql=$this->dean->prepare("INSERT INTO subject(email,title,descr)VALUES(?,?,?)");
+		if ($sql->execute(array($email,$tit,$ds))) {
+			return "donet";
+		}
+		return "no";
+	}
+
+	public function display(){
+		$sql =$this->dean->prepare("SELECT * FROM subject LEFT JOIN info ON subject.email=info.email");
+		$sql->execute();
+		return $sql;
+	}
+
+	public function getNabe($email){
+		$sql=$this->dean->prepare("SELECT name FROM info WHERE email=?");
+		$sql->execute(array($email));
+		if($sql->rowCount()==1){
+			foreach ($sql as $key ) {
+				# code...
+				return $key['name'];
+			}
+		}
+		else{
+			return "";
+		}
+	}
+
+	public function displayData($email){
+		$sql =$this->dean->prepare("SELECT * FROM info WHERE email=?");
+		$sql->execute(array($email));
+		return $sql;
+	}
+
+	public function checkinfo($email){
+		$sql=$this->dean->prepare("SELECT * FROM info WHERE email=?");
+		$sql->execute(array($email));
+		if ($sql->rowCount()==1) {
+			# code...
+			return true;
+		}
+		else{
+			return false ;
+		}
+	}
+
+	public function updateInfo($name,$phone,$dat1,$dat2,$email){
+		$sql=$this->dean->prepare("UPDATE info SET name=?,phone=?,dateariv=?,datecheck=? WHERE email=?");
+		
+		if($sql->execute(array($name,$phone,$dat1,$dat2,$email))){
+			return "done update";
+		}else{
+			return 'error update';
+		}
+
+	}
+
+	public function deleteSub($id){
+		$sql=$this->dean->prepare("DELETE FROM subject WHERE id_s=?");
+		if ($sql->execute(array($id))) {
+			# code...
+			return 'done dele';
+		}
+		else{
+			return 'error';
+		}
+	}
+
+
 }

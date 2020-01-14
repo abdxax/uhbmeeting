@@ -3,7 +3,8 @@ session_start();
 //require_once __DIR__.'template/header.php';
 require '../template/header.php';
 require '../control/dean.php';
-
+$dean=new Dean();
+$msg='';
 if (isset($_POST['submit'])) {
   $name=strip_tags($_POST['name']);
   $phone=strip_tags($_POST['phone']);
@@ -13,11 +14,46 @@ if (isset($_POST['submit'])) {
   $checkout=strip_tags($_POST['checkout']);
   $airport=strip_tags($_POST['ha']);
   $hotail=strip_tags($_POST['ha1']);
-  $dean=new Dean();
+  
   //(name,email,phone,unviersity,airport,hotel,timeariv,dateariv,datecheck)
-  $msg=$dean->addInfo($name,$_SESSION['email'],$phone,$unv,$airport,$hotail,$arrivTime,$arriv,$checkout);
+  //($name,$unvv,$car,$hotil,$tik,$Ttime,$checkout,$phone,$email)
+  $msg=$dean->addInfo($name,$unv,$airport,$hotail,$arriv,$arrivTime,$checkout,$phone,$_SESSION['email']);
  // echo $name . $hotail;
 }
+//$arr_data;
+$name='';
+$unv='';
+$phone='';
+$date1='';
+$time='';
+$date2='';
+if ($dean->checkinfo($_SESSION['email'])) {
+  # code...
+  $data=$dean->displayData($_SESSION['email']);
+  $coun=0;
+  foreach ($data as $value) {
+    $name=$value['name'];
+    $phone=$value['phone'];
+    $unv=$value['unviersity'];
+    $date1=$value['dateariv'];
+    $date2=$value['datecheck'];
+
+
+  }
+}
+
+if (isset($_POST['update'])) {
+  # code...
+  $name=strip_tags($_POST['name']);
+  $phone=strip_tags($_POST['phone']);
+  
+  $arriv=strip_tags($_POST['arriv']);
+  
+  $checkout=strip_tags($_POST['checkout']);
+  $msg=$dean->updateInfo($name,$phone,$arriv,$checkout,$_SESSION['email']);
+ 
+}
+//print_r($arr_data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,19 +74,26 @@ if (isset($_POST['submit'])) {
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker({
+      altFormat: "yyyy-mm-dd"
+    });
   } );
 
   $( function() {
-    $( "#datepicker2" ).datepicker();
+    $( "#datepicker2" ).datepicker({
+       altFormat: "yyyy-mm-dd"
+    });
   } );
   </script>
+
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 </head>
 <body>
 	<header dir="rtl">
 		<div class="">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand " href="#"><img src="../image/header2.png" width="30" height="30"></a>
+  <a class="navbar-brand " href="index.php"><img src="../image/header2.png" width="30" height="30"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -60,13 +103,13 @@ if (isset($_POST['submit'])) {
      
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          مرحبا <?php echo $dean->getNabe($_SESSION['email']);?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">بياناتي</a>
          
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">تسجيل خروج </a>
+          <a class="dropdown-item" href="logout.php">تسجيل خروج </a>
         </div>
       </li>
     
@@ -82,6 +125,20 @@ if (isset($_POST['submit'])) {
       <div class="col-12 text-center tit">
           <h3>ملتقى العمداء في الجامعات السعودية الرابع والعشرين</h3>
         </div>
+
+        <div class="col-12">
+           <?php
+
+          if($msg==='done update'){
+            echo '<div class="alert alert-success text-center">تم التحديث بنجاح </div>';
+          }
+           else if($msg=='error update'){
+            echo '<div class="alert alert-success text-center">الرجاء التواصل مع الدعم الفني </div>';
+          }
+
+
+          ?>
+        </div>
       <div class="col-sm-7 ">
 
         <div class="col-sm-12">
@@ -91,7 +148,82 @@ if (isset($_POST['submit'])) {
         
 
         <div class="col-sm-8 ">
-          <form class="form-info" method="POST">
+
+          <?php 
+          if($dean->checkinfo($_SESSION['email'])){
+            echo '
+            <form class="form-info" method="POST">
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+                <input type="text" name="name" class="form-control" value='.$name.'>
+              </div>
+            </div>';
+
+            // unv
+            echo '
+              <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7" dir="rtl">
+                <p>'.$unv.'</p>
+              </div>
+            </div>'
+            ;
+
+           echo' <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+                <input type="text" name="phone" class="form-control" value='.$phone.'
+">
+              </div>
+            </div>
+
+           
+
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+                <input type="text" name="arriv" class="form-control" id="datepicker" value='.$date1.'>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-5">
+                <input type="text" name="arrivTime" class="form-control" placeholder="وقت الوصول
+">
+              </div>
+              <div class="col-sm-3">
+                <select class="form-control" name="sec">
+                  <option>صباح</option>
+                  <option>مساء </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+                <input type="text" name="checkout" class="form-control" id="datepicker2" value='.$date2.'>
+              </div>
+            </div>
+
+             
+
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+                <input type="submit" name="update" class="btn btn-block btn-info" value="تحديث">
+              </div>
+            </div>
+
+          </form>
+
+            ';
+
+          }
+          else{
+            echo '<form class="form-info" method="POST">
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
@@ -173,7 +305,11 @@ if (isset($_POST['submit'])) {
               </div>
             </div>
 
-          </form>
+          </form>';
+          }
+
+
+          ?>
         </div>
       </div>
     </div>

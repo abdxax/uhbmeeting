@@ -36,15 +36,22 @@ class User extends DBConnect
 					$_SESSION['pass']=$password;
 					$sql_check=$this->user->prepare("SELECT * FROM info WHERE email=?");
 					$sql_check->execute(array($email));
-					if($sql_check->rowCount<=0){
+					if($sql_check->rowCount()<=0){
 						header("location:dean/info.php");
 					}
+					else{
 					header("location:dean/index.php");
+				    }
+
 				}
 				else if($key['role']==2){
+					$_SESSION['email']=$email;
+					$_SESSION['pass']=$password;
+					header("location:staf/index.php");
 
 				}
 				else{
+					return "eroor2";
 
 				}
 			}

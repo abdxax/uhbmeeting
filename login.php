@@ -3,7 +3,7 @@ session_start();
 //require_once __DIR__.'template/header.php';
 require 'template/header.php';
 require "control/user.php";
-
+$msg='';
 if (isset($_POST['sub'])) {
 	# code...
 	 $user=new User();
@@ -30,6 +30,9 @@ if (isset($_POST['sub'])) {
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 
+
+
+  <link href="https://fonts.googleapis.com/css?family=Amiri&display=swap" rel="stylesheet">
   
 </head>
 <body>
@@ -44,6 +47,13 @@ if (isset($_POST['sub'])) {
 			</div>
 
 			<div class="col-12 col-sm-12 ">
+				<?php
+				if ($msg=='user error') {
+					echo '<div class="alert alert-danger text-center">البريد الالكتروني او كلمة الكرور غير صحيحة </div>';
+				}
+
+
+				?>
 				<form class="forms" method="POST">
 					<div class="form-group ">
 						<div class="col-sm-6 col-md-4">

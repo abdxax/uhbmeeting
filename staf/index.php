@@ -2,24 +2,10 @@
 session_start();
 //require_once __DIR__.'template/header.php';
 require '../template/header.php';
-require '../control/dean.php';
+require '../control/staf.php';
 $msg='';
-$dean=new Dean();
-if (isset($_POST['sub'])) {
-  $title=strip_tags($_POST['title']);
-  $descr=strip_tags($_POST['descr']);
+$staf=new Staf();
 
-  
-  $msg=$dean->addTitle($_SESSION['email'],$title,$descr);
-  }
-
-  if (isset($_GET['id_del'])) {
-    # code...
-    $rr=$dean->deleteSub($_GET['id_del']);
-    if($rr=='done dele'){
-      header("location:index.php");
-    }
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,10 +44,10 @@ if (isset($_POST['sub'])) {
      
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          مرحبا <?php echo $dean->getNabe($_SESSION['email']);?>
+          مرحبا <?php echo $staf->getNabe($_SESSION['email']);?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="info.php">بياناتي</a>
+         
          
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="logout.php">تسجيل خروج </a>
@@ -77,85 +63,23 @@ if (isset($_POST['sub'])) {
 <section dir="rtl" class="section-forms">
 	<div class="container">
 		<div class="row">
-			<div class="col-12 text-center">
-        <h4>اضافة موضوع للنقاش </h4>
+			<div class="col-md-6 col-sm-12">
+        <div class="card" style="width: 18rem;">
+ 
+  <div class="card-body">
+    
+    <a href="subject.php"><h5>المواضيع</h5></a>
+  </div>
+</div>
       </div>
-      <div class="col-sm-9 offset-sm-1">
-        <?php
-        if($msg=='donet'){
-          echo '<div class="alert alert-success text-center">تم اضافة الموضوع </div>';
-        }
-
-        ?>
-        <form method="POST">
-          <div class="form-group">
-            <div class="col-sm-12">
-              <input type="text" name="title" class="form-control" placeholder="الموضوع">
-              
-            </div>
-           
-
-          </div>
-
-           <div class="form-group">
-            
-            <div class="col-sm-12">
-              
-              <textarea class="form-control" name="descr" rows="6" placeholder="نبذه"></textarea>
-            </div>
-            
-              
-            </div>
-
-             <div class="form-group">
-            
-            <div class="col-sm-12 text-center">
-              <input type="submit" name="sub" class="btn btn-info " value="تقديم">
-            </div>
-              
-            </div>
-        </form>
-      </div>
-
-      <div class="col-sm-9 offset-sm-1">
-        <table class="table">
-          <thead>
-            <tr>
-              <th> </th>
-              <th>الاسم</th>
-              <th>الجامعة</th>
-              <th>الموضوع</th>
-              <th>نبذه </th>
-              <th> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $subs=$dean->display();
-            $counts=1;
-            foreach ($subs as $key ) {
-               echo '
-            <tr>
-            <td>'.$counts.'</td>
-            <td>'.$key['name'].'</td>
-            <td>'.$key['unviersity'].'</td>
-            <td>'.$key['title'].'</td>
-            <td>'.$key['descr'].'</td>';
-            if($key['email']==$_SESSION['email']){
-              echo '<td><a href="index.php?id_del='.$key['id_s'].'" class="btn btn-danger">حذف</a></td>';
-            }
-
-            echo'</tr>
-
-            ';
-             $counts++;
-              # code...
-            }
-           
-            
-            ?>
-          </tbody>
-        </table>
+      <div class="col-md-6 col-sm-12">
+        <div class="card" style="width: 18rem;">
+  
+  <div class="card-body">
+    <a href="unv.php"><h5>الحضور </h5></a>
+  </div>
+</div>
+        
       </div>
 		</div>
 	</div>
