@@ -5,6 +5,9 @@ require '../template/header.php';
 require '../control/dean.php';
 $msg='';
 $dean=new Dean();
+if(!$dean-> checkPerm($_SESSION['email'],$_SESSION['pass'])){
+  header("location:../login.php");
+}
 if (isset($_POST['sub'])) {
   $title=strip_tags($_POST['title']);
   $descr=strip_tags($_POST['descr']);

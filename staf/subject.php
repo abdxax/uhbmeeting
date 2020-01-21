@@ -4,7 +4,11 @@ session_start();
 require '../template/header.php';
 require '../control/staf.php';
 $msg='';
+
 $staf=new Staf();
+if(!$staf-> checkPerm($_SESSION['email'],$_SESSION['pass'])){
+  header("location:../login.php");
+}
 
 ?>
 <!DOCTYPE html>

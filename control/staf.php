@@ -44,7 +44,16 @@ class Staf extends DBConnect
 		return $sql;
 	}
 
-	
+	public function checkPerm($email,$pass){
+		$sql=$this->dean->prepare("SELECT * FROM user WHERE email=? AND password=? AND role='2'");
+		$sql->execute(array($email,$pass));
+		$rowcount=$sql->rowCount();
+		if($rowcount==1){
+          return true;
+		}
+		return false;
+
+	}
 
 
 }

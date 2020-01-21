@@ -94,4 +94,16 @@ class Dean extends DBConnect
 	}
 
 
+	public function checkPerm($email,$pass){
+		$sql=$this->dean->prepare("SELECT * FROM user WHERE email=? AND password=? AND role='1'");
+		$sql->execute(array($email,$pass));
+		$rowcount=$sql->rowCount();
+		if($rowcount==1){
+          return true;
+		}
+		return false;
+
+	}
+
+
 }

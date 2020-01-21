@@ -4,6 +4,9 @@ session_start();
 require '../template/header.php';
 require '../control/dean.php';
 $dean=new Dean();
+if(!$dean-> checkPerm($_SESSION['email'],$_SESSION['pass'])){
+  header("location:../login.php");
+}
 $msg='';
 if (isset($_POST['submit'])) {
   $name=strip_tags($_POST['name']);
@@ -14,10 +17,14 @@ if (isset($_POST['submit'])) {
   $checkout=strip_tags($_POST['checkout']);
   $airport=strip_tags($_POST['ha']);
   $hotail=strip_tags($_POST['ha1']);
-  
+  echo $unv;
+  if($unv!=1){
+    $msg=$dean->addInfo($name,$unv,$airport,$hotail,$arriv,$arrivTime,$checkout,$phone,$_SESSION['email']);
+
+  }
   //(name,email,phone,unviersity,airport,hotel,timeariv,dateariv,datecheck)
   //($name,$unvv,$car,$hotil,$tik,$Ttime,$checkout,$phone,$email)
-  $msg=$dean->addInfo($name,$unv,$airport,$hotail,$arriv,$arrivTime,$checkout,$phone,$_SESSION['email']);
+ // $msg=$dean->addInfo($name,$unv,$airport,$hotail,$arriv,$arrivTime,$checkout,$phone,$_SESSION['email']);
  // echo $name . $hotail;
 }
 //$arr_data;
@@ -84,6 +91,17 @@ if (isset($_POST['update'])) {
        altFormat: "yyyy-mm-dd"
     });
   } );
+
+  function chos(){
+    let sele=document.getElementById('unv').value;
+    let othe=document.getElementById('other');
+    if(sele=="oth"){
+      othe.setAttribute('type','text');
+      othe.setAttribute('name','unv');
+      sele.setAttribute('name','other2');
+    }
+   // alert(sele);
+  }
   </script>
 
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
@@ -234,9 +252,47 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <select class="form-control" name="unv">
-                  <option>جامعة حائل </option>
+                <select class="form-control" name="unv" id="unv" onchange="chos()">
+                  <option value="1">اختار جامعة  </option>
+                  <option>جامعة أم القرى </option>
+                  <option> الجامعة الإسلامية </option>
+                  <option> جامعة الإمام محمد بن سعود الإسلامية </option>
+                  <option> جامعة الملك عبد العزيز </option>
+                  <option> جامعة الملك سعود </option>
+                  <option> جامعة الملك فهد للبترول والمعادن </option>
+                  <option> جامعة نايف العربية للعلوم الأمنية </option>
+                  <option> جامعة الملك فيصل </option>
+                  <option>جامعة الملك خالد </option>
+                  <option>جامعة القصيم </option>
+                  <option> جامعة طيبة </option>
+                  <option> جامعة جازان </option>
+                  <option> جامعة الجوف </option>
+                  <option>جامعة الباحة </option>
+                  <option> جامعة تبوك </option>
+                  <option> جامعة نجران </option>
+                  <option> جامعة الحدود الشمالية </option>
+                  <option> جامعة الأميرة نورة بنت عبد الرحمن </option>
+                  <option> جامعة الملك سعود بن عبد العزيز للعلوم الصحية </option>
+                  <option> جامعة الإمام عبد الرحمن بن فيصل </option>
+                  <option> جامعة الملك عبد الله للعلوم والتقنية </option>
+                  <option> جامعة الأمير سطام بن عبد العزيز </option>
+                  <option> جامعة شقراء </option>
+                  <option> جامعة المجمعة </option>
+                  <option> الجامعة السعودية الالكترونية </option>
+                  <option> جامعة جدة </option>
+                  <option> جامعة بيشة </option>
+                  <option> كلية المدربين التقنيين </option>
+                   <option> كلية الجبيل الصناعية </option>
+                  <option> كلية ينبع الجامعية </option>
+                  <option value="oth">اخرى </option>
                 </select> 
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2"></label>
+              <div class="col-sm-7">
+               <input type="hidden" name="other" class="form-control" id="other" placeholder=" ">
               </div>
             </div>
 
