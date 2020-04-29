@@ -33,7 +33,18 @@ if (isset($_POST['sub'])) {
 
 
   <link href="https://fonts.googleapis.com/css?family=Amiri&display=swap" rel="stylesheet">
-  
+  <style>
+ .footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	top:88%;
+	width: 100%;
+	
+	
+	text-align: center;
+  } 
+  </style>
 </head>
 <body>
 <section dir="rtl" class="section-forms">
@@ -83,7 +94,26 @@ if (isset($_POST['sub'])) {
 </section>
 
 
-<footer></footer>
+<footer class="footer">
+<div class="container">
+<div class="row">
+
+<div class="col-4">
+
+</div>
+<div class="col-4 col-sm-12">
+<div class="text-center">
+<p>Developer by :Abdulrahman AlJarallah</p>
+<p>@2020</p>
+</div>
+</div>
+
+<div class="col-4">
+
+</div>
+</div>
+</div>
+</footer>
 </body>
 </html>
 

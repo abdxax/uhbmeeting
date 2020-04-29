@@ -71,10 +71,11 @@ class Dean extends DBConnect
 		}
 	}
 
-	public function updateInfo($name,$phone,$dat1,$dat2,$email){
-		$sql=$this->dean->prepare("UPDATE info SET name=?,phone=?,dateariv=?,datecheck=? WHERE email=?");
+	public function updateInfo($name,$phone,$dat1,$dat2,$email,$timearr,$airport,$hotel){
+		$sql=$this->dean->prepare("UPDATE info SET name=?,phone=?,dateariv=?,datecheck=?,airport=?,hotel=?,timeariv=? WHERE email=?");
 		
-		if($sql->execute(array($name,$phone,$dat1,$dat2,$email))){
+		if($sql->execute(array($name,$phone,$dat1,$dat2,$airport,$hotel,$timearr,$email))){
+			header("location:update.php?code=101");
 			return "done update";
 		}else{
 			return 'error update';

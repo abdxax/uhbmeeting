@@ -64,7 +64,7 @@ if (isset($_POST['sub'])) {
           مرحبا <?php echo $dean->getNabe($_SESSION['email']);?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="info.php">بياناتي</a>
+          <a class="dropdown-item" href="update.php">بياناتي</a>
          
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="logout.php">تسجيل خروج </a>

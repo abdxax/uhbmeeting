@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
   $checkout=strip_tags($_POST['checkout']);
   $airport=strip_tags($_POST['ha']);
   $hotail=strip_tags($_POST['ha1']);
-  echo $unv;
+  //echo $unv;
   if($unv!=1){
     $msg=$dean->addInfo($name,$unv,$airport,$hotail,$arriv,$arrivTime,$checkout,$phone,$_SESSION['email']);
 
@@ -34,6 +34,10 @@ $phone='';
 $date1='';
 $time='';
 $date2='';
+$air_port='';
+$hotail_inf='';
+$art_time='';
+$arr_Time='';
 if ($dean->checkinfo($_SESSION['email'])) {
   # code...
   $data=$dean->displayData($_SESSION['email']);
@@ -44,6 +48,10 @@ if ($dean->checkinfo($_SESSION['email'])) {
     $unv=$value['unviersity'];
     $date1=$value['dateariv'];
     $date2=$value['datecheck'];
+    $air_port=$value['airport'];
+    $hotail_inf=$value['hotel'];
+    $art_time=$value['timeariv'];
+    $arr_Time=explode(' - ',$art_time);
 
 
   }
@@ -51,13 +59,23 @@ if ($dean->checkinfo($_SESSION['email'])) {
 
 if (isset($_POST['update'])) {
   # code...
-  $name=strip_tags($_POST['name']);
+  /*$name=strip_tags($_POST['name']);
   $phone=strip_tags($_POST['phone']);
   
   $arriv=strip_tags($_POST['arriv']);
   
   $checkout=strip_tags($_POST['checkout']);
-  $msg=$dean->updateInfo($name,$phone,$arriv,$checkout,$_SESSION['email']);
+  // updateInfo($name,$phone,$dat1,$dat2,$email,$timearr,$airport,$hotel)
+  $msg=$dean->updateInfo($name,$phone,$arriv,$checkout,$_SESSION['email']);*/
+  $name=strip_tags($_POST['name']);
+  $phone=strip_tags($_POST['phone']);
+ // $unv=strip_tags($_POST['unv']);
+  $arriv=strip_tags($_POST['arriv']);
+  $arrivTime=strip_tags($_POST['arrivTime'])." - ".strip_tags($_POST['sec']);
+  $checkout=strip_tags($_POST['checkout']);
+  $airport=strip_tags($_POST['ha']);
+  $hotail=strip_tags($_POST['ha1']);
+  $msg=$dean->updateInfo($name,$phone,$arriv,$checkout,$_SESSION['email'],$arrivTime,$airport,$hotail);
  
 }
 //print_r($arr_data);
@@ -99,6 +117,10 @@ if (isset($_POST['update'])) {
       othe.setAttribute('type','text');
       othe.setAttribute('name','unv');
       sele.setAttribute('name','other2');
+    }else{
+      //hidden
+      othe.setAttribute('type','hidden');
+
     }
    // alert(sele);
   }
@@ -146,8 +168,8 @@ if (isset($_POST['update'])) {
 
         <div class="col-12">
            <?php
-
-          if($msg==='done update'){
+       // print($arr_Time[1]);
+          if(isset($_GET['code'])==101){
             echo '<div class="alert alert-success text-center">تم التحديث بنجاح </div>';
           }
            else if($msg=='error update'){
@@ -174,24 +196,61 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="name" class="form-control" value='.$name.'>
+                <input type="text" name="name" class="form-control" value='.$name.' require>
               </div>
             </div>';
 
             // unv
-            echo '
+          /*  echo '
               <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7" dir="rtl">
                 <p>'.$unv.'</p>
               </div>
             </div>'
-            ;
+            ;*/
+            echo ' <div class="form-group row">
+            <label class="col-sm-2"></label>
+            <div class="col-sm-7">
+              <select class="form-control" name="unv" id="unv" onchange="chos()" require>
+                <option value="1">اختار جامعة  </option>
+                <option';if(trim($unv)=="جامعة أم القرى"){echo'selected';} echo'>جامعة أم القرى </option>
+                <option> الجامعة الإسلامية </option>
+                <option> جامعة الإمام محمد بن سعود الإسلامية </option>
+                <option> جامعة الملك عبد العزيز </option>
+                <option> جامعة الملك سعود </option>
+                <option> جامعة الملك فهد للبترول والمعادن </option>
+                <option> جامعة نايف العربية للعلوم الأمنية </option>
+                <option> جامعة الملك فيصل </option>
+                <option>جامعة الملك خالد </option>
+                <option>جامعة القصيم </option>
+                <option> جامعة طيبة </option>
+                <option> جامعة جازان </option>
+                <option> جامعة الجوف </option>
+                <option>جامعة الباحة </option>
+                <option> جامعة تبوك </option>
+                <option> جامعة نجران </option>
+                <option> جامعة الحدود الشمالية </option>
+                <option> جامعة الأميرة نورة بنت عبد الرحمن </option>
+                <option> جامعة الملك سعود بن عبد العزيز للعلوم الصحية </option>
+                <option> جامعة الإمام عبد الرحمن بن فيصل </option>
+                <option> جامعة الملك عبد الله للعلوم والتقنية </option>
+                <option> جامعة الأمير سطام بن عبد العزيز </option>
+                <option> جامعة شقراء </option>
+                <option> جامعة المجمعة </option>
+                <option> الجامعة السعودية الالكترونية </option>
+                <option> جامعة جدة </option>
+                <option> جامعة بيشة </option>
+                
+                <option value="oth">اخرى </option>
+              </select> 
+            </div>
+          </div>';
 
            echo' <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="phone" class="form-control" value='.$phone.'
+                <input type="text" name="phone" class="form-control" value='.$phone.' require
 ">
               </div>
             </div>
@@ -201,20 +260,21 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="arriv" class="form-control" id="datepicker" value='.$date1.'>
+                <input type="text" name="arriv" class="form-control" id="datepicker" value='.$date1.' require>
               </div>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-2"></label>
+              <div class="col-12 text-center"> <p>موعد الوصول : '.$art_time.'</p></div>
               <div class="col-sm-5">
-                <input type="text" name="arrivTime" class="form-control" placeholder="وقت الوصول
-">
+              
+                <div><input type="text" name="arrivTime" class="form-control" value='.$arr_Time[0].' require></div>
               </div>
-              <div class="col-sm-3">
-                <select class="form-control" name="sec">
+              <div class="col-sm-4">
+                <select class="form-control" name="sec" require>
                   <option>صباح</option>
-                  <option>مساء </option>
+                  <option>مساء</option>
                 </select>
               </div>
             </div>
@@ -222,7 +282,27 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="checkout" class="form-control" id="datepicker2" value='.$date2.'>
+                <input type="text" name="checkout" class="form-control" id="datepicker2" value='.$date2.' require>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-md-5">هل ترغب بخدمة الاستقبال في المطار ؟</label>
+              <div class="col-sm-7">
+               <div class="col-sm-7">
+               <input type="radio" name="ha" value="yes" id="d" ';if($air_port==="yes"){echo "checked";} echo '> <label for="d">نعم</label><br>
+                <input type="radio" name="ha" value="no" id="i" ';if($air_port==="no"){echo "checked";} echo'> <label for="i">لا</label> <br>
+              </div>
+              </div>
+            </div>
+
+             <div class="form-group row">
+              <label class="col-sm-2 col-md-5">هل ترغب بتامين سكن؟</label>
+              <div class="col-sm-7">
+               <div class="col-sm-7">
+               <input type="radio" name="ha1" value="yes" id="d" ';if($hotail_inf=='yes'){echo "checked";} echo'> <label for="d">نعم</label><br>
+                <input type="radio" name="ha1" value="no" id="i"';if($hotail_inf=='no'){echo "checked";} echo'> <label for="i">لا</label> <br>
+              </div>
               </div>
             </div>
 
@@ -245,15 +325,16 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="name" class="form-control" placeholder="الاسم ">
+                <input type="text" name="name" class="form-control" placeholder="الاسم " require>
               </div>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <select class="form-control" name="unv" id="unv" onchange="chos()">
+                <select class="form-control" name="unv" id="unv" onchange="chos()" require>
                   <option value="1">اختار جامعة  </option>
+                  <option>جامعة حائل</option>
                   <option>جامعة أم القرى </option>
                   <option> الجامعة الإسلامية </option>
                   <option> جامعة الإمام محمد بن سعود الإسلامية </option>
@@ -269,6 +350,7 @@ if (isset($_POST['update'])) {
                   <option> جامعة الجوف </option>
                   <option>جامعة الباحة </option>
                   <option> جامعة تبوك </option>
+                  <option>جامعة الطائف</option>
                   <option> جامعة نجران </option>
                   <option> جامعة الحدود الشمالية </option>
                   <option> جامعة الأميرة نورة بنت عبد الرحمن </option>
@@ -281,9 +363,7 @@ if (isset($_POST['update'])) {
                   <option> الجامعة السعودية الالكترونية </option>
                   <option> جامعة جدة </option>
                   <option> جامعة بيشة </option>
-                  <option> كلية المدربين التقنيين </option>
-                   <option> كلية الجبيل الصناعية </option>
-                  <option> كلية ينبع الجامعية </option>
+                  
                   <option value="oth">اخرى </option>
                 </select> 
               </div>
@@ -292,7 +372,7 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-               <input type="hidden" name="other" class="form-control" id="other" placeholder=" ">
+               <input type="hidden" name="other" class="form-control" id="other" placeholder="الجهة ">
               </div>
             </div>
 
@@ -300,7 +380,7 @@ if (isset($_POST['update'])) {
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
                 <input type="text" name="phone" class="form-control" placeholder="رقم الجوال
-">
+" require>
               </div>
             </div>
 
@@ -309,7 +389,7 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="arriv" class="form-control" id="datepicker" placeholder="موعد الوصول">
+                <input type="text" name="arriv" class="form-control" id="datepicker" placeholder="موعد الوصول" require>
               </div>
             </div>
 
@@ -317,10 +397,10 @@ if (isset($_POST['update'])) {
               <label class="col-sm-2"></label>
               <div class="col-sm-5">
                 <input type="text" name="arrivTime" class="form-control" placeholder="وقت الوصول
-">
+" require>
               </div>
-              <div class="col-sm-3">
-                <select class="form-control" name="sec">
+              <div class="col-sm-4">
+                <select class="form-control" name="sec" require>
                   <option>صباح</option>
                   <option>مساء </option>
                 </select>
@@ -330,7 +410,7 @@ if (isset($_POST['update'])) {
             <div class="form-group row">
               <label class="col-sm-2"></label>
               <div class="col-sm-7">
-                <input type="text" name="checkout" class="form-control" id="datepicker2" placeholder="تاريخ المغادرة ">
+                <input type="text" name="checkout" class="form-control" id="datepicker2" placeholder="تاريخ المغادرة " require>
               </div>
             </div>
 
